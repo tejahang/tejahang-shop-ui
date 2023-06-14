@@ -9,7 +9,8 @@ tejahang-shop-ui is a simple user-interface written (UI) in **React** for a fict
 - user signup/login
 - search functionality
 - protected routes
-- simple search filtering
+- basic search filtering
+- cart/checkout functionality
 
 
 # Installation
