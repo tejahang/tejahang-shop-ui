@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import ProductContext from '../context/products';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
 function Navbar() {
-  const { currentUser } = useContext(ProductContext);
+  const { currentUser, isAuthenticated, getCartItems } =
+    useContext(ProductContext);
 
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -15,6 +16,18 @@ function Navbar() {
     });
     navigate('/');
     // redirect(/);
+  };
+
+  const handleCartClick = async (event) => {
+    event.preventDefault();
+    // await cart(currentUser.id, product.id);
+
+    if (isAuthenticated()) {
+      console.log(await getCartItems());
+      navigate('/cart');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -49,13 +62,13 @@ function Navbar() {
               </li>
             </ul>
             <div className='d-flex'>
-              <a href='/cart'>
+              <a onClick={handleCartClick} href='/cart'>
                 <button className='btn btn-outline-dark' type='submit'>
                   <i className='bi-cart-fill me-1'></i>
                   Cart
-                  <span className='badge bg-dark text-white ms-1 rounded-pill'>
+                  {/* <span className='badge bg-dark text-white ms-1 rounded-pill'>
                     0
-                  </span>
+                  </span> */}
                 </button>
               </a>
               <ul className='navbar-nav me-auto'>

@@ -4,7 +4,7 @@ import ProductContext from '../context/products';
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
-  const { cart, currentUser } = useContext(ProductContext);
+  const { cart, currentUser, isAuthenticated } = useContext(ProductContext);
 
   // undefined when first loads
   if (product === undefined) {
@@ -17,9 +17,13 @@ function ProductCard({ product }) {
 
   const handleCartClick = async (event) => {
     event.preventDefault();
-    await cart(currentUser.id, product.id);
 
-    navigate('/cart');
+    if (isAuthenticated()) {
+      await cart(currentUser[0].id, product.id);
+      // navigate('/cart');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -47,8 +51,7 @@ function ProductCard({ product }) {
           <div className='text-center'>
             {/* <!-- Product name--> */}
             <h5 className='fw-bolder'>{product.title.slice(0, 20) + '....'}</h5>
-            {/* <!-- Product price--> */}
-            $18.00
+            {/* <!-- Product price--> */}${product.price}
           </div>
         </div>
         {/* <!-- Product actions--> */}

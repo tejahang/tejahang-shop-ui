@@ -10,6 +10,8 @@ function Provider({ children }) {
   const [categories, setCategories] = useState([]);
   const [searchResults, setSearchResult] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [transactionList, setTransactionList] = useState([]);
 
   // 1. Fetch Books
   const fetchProducts = useCallback(async () => {
@@ -75,6 +77,51 @@ function Provider({ children }) {
   };
 
   // 5. Authneticated
+  const isAuthenticated = () => {
+    if (currentUser) {
+      return true;
+    }
+    return false;
+  };
+
+  // 6. Get Cart Item for user
+  const getCartItems = async () => {
+    const response = await axios.post(
+      'http://localhost:5000/api/products/getcart',
+      {
+        user_id: currentUser[0].id,
+      }
+    );
+
+    setCartItems(response.data.cart);
+    return response.data.cart;
+  };
+
+  // 7. Checkout
+  const getCheckout = async (product_id, count, total) => {
+    const response = await axios.post(
+      'http://localhost:5000/api/products/checkout',
+      {
+        user_id: currentUser[0].id,
+        product_id: product_id,
+        count: count,
+        total: total,
+      }
+    );
+
+    return response.data;
+  };
+
+  // 8. Business Transaction
+  const getTransactionList = async (product_id, count, total) => {
+    const response = await axios.get(
+      'http://localhost:5000/api/products/transactionList'
+    );
+
+    setTransactionList(response.data.transaction);
+
+    return response.data.transaction;
+  };
 
   // To share
   const toShare = {
@@ -90,6 +137,12 @@ function Provider({ children }) {
     cart,
     setCurrentUser,
     currentUser,
+    isAuthenticated,
+    getCartItems,
+    cartItems,
+    getCheckout,
+    getTransactionList,
+    transactionList,
   };
 
   return (

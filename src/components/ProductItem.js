@@ -1,9 +1,11 @@
 import { useContext } from 'react';
 import ProductContext from './../context/products';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ProductItem() {
-  const { products } = useContext(ProductContext);
+  const navigate = useNavigate();
+  const { products, cart, currentUser, isAuthenticated } =
+    useContext(ProductContext);
   const { id } = useParams();
 
   const product = products.find((el) => el.id === parseInt(id));
@@ -12,7 +14,17 @@ function ProductItem() {
     return;
   }
 
-  const handleButtonClick = () => {};
+  const handleCartClick = async (event) => {
+    event.preventDefault();
+    // await cart(currentUser.id, product.id);
+
+    if (isAuthenticated()) {
+      // navigate('/cart');
+      await cart(currentUser[0].id, product.id);
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <div className='py-5'>
@@ -53,10 +65,10 @@ function ProductItem() {
             </div>
             <p className='lead'>{product.description}</p>
             <div className='d-flex'>
-              <a href='./cart.html'>
+              <a href='#'>
                 {' '}
                 <button
-                  onClick={handleButtonClick}
+                  onClick={handleCartClick}
                   className='btn btn-outline-dark flex-shrink-0'
                   type='button'
                 >

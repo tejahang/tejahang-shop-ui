@@ -6,6 +6,8 @@ import SingleProductPage from './pages/SingleProductPage';
 import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import BusinessPage from './pages/BusinessPage';
+
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/logout' element={<SignupPage />} />
+        <Route path='/business' element={<BusinessPage />} />
       </Routes>
     </div>
   );
