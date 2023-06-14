@@ -11,7 +11,7 @@ function SearchResults() {
 
   return (
     <div className='container pt-5'>
-      <div className='row'>
+      <div className='row mb-6'>
         <div className='col-md-8 order-md-2 col-lg-9'>
           {/* <!--  --> */}
           <div className='container-fluid'>

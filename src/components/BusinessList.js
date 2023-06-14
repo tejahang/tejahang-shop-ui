@@ -14,6 +14,7 @@ function BusinessList() {
   return (
     <div className='container checkout'>
       <div className='row'>
+        <h1 className='mb-3'>Transactions:</h1>
         <div className='col-md-12 col-lg-8'>
           <div className='items'>
             {/* Table */}

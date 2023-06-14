@@ -1,9 +1,12 @@
 import { useContext } from 'react';
 import ProductContext from '../context/products';
+import { useNavigate } from 'react-router-dom';
 import Table from './Table';
+import Swal from 'sweetalert2';
 
 function Cart() {
   const { cartItems, getCheckout } = useContext(ProductContext);
+  const navigate = useNavigate();
 
   let totalBill = null;
 
@@ -19,6 +22,15 @@ function Cart() {
     cartItems.map((el) => {
       return getCheckout(el.id, el.count, el.price * 1 * el.count);
     });
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Thank You For Shopping!!',
+      showConfirmButton: false,
+      timer: 2000,
+    });
+
+    navigate('/');
   };
 
   return (
@@ -34,7 +46,7 @@ function Cart() {
                   <th scope='col'>No.</th>
                   <th scope='col'>Item</th>
                   <th scope='col'>Quantity</th>
-                  <th scope='col'>Pric per item</th>
+                  <th scope='col'>Price per item</th>
                   <th scope='col'></th>
                 </tr>
               </thead>

@@ -13,9 +13,11 @@ function Provider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [transactionList, setTransactionList] = useState([]);
 
+  const base_url = 'http://localhost:5000';
+
   // 1. Fetch Books
   const fetchProducts = useCallback(async () => {
-    const response = await axios.get('http://localhost:5000/api/products', {
+    const response = await axios.get(base_url + '/api/products', {
       withCredentials: true,
     });
 
@@ -26,12 +28,9 @@ function Provider({ children }) {
 
   // 2. Get categories
   const getCategories = useCallback(async () => {
-    const response = await axios.get(
-      'http://localhost:5000/api/products/categories',
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(base_url + '/api/products/categories', {
+      withCredentials: true,
+    });
 
     setCategories(response.data);
   }, []);
@@ -39,7 +38,7 @@ function Provider({ children }) {
   // 2. Get categories
   const getSearchResults = useCallback(async (searchItem) => {
     const response = await axios.post(
-      'http://localhost:5000/api/products/search',
+      base_url + '/api/products/search',
       { searchItem: searchItem },
       { withCredentials: true }
     );
@@ -50,7 +49,7 @@ function Provider({ children }) {
   // 3. Login
   const login = async (email, password) => {
     const response = await axios.post(
-      'http://localhost:5000/api/users/login',
+      base_url + '/api/users/login',
       {
         email,
         password,
@@ -65,7 +64,7 @@ function Provider({ children }) {
   // 4. Cart
   const cart = async (user_id, product_id) => {
     const response = await axios.post(
-      'http://localhost:5000/api/products/cart',
+      base_url + '/api/products/cart',
       {
         user_id,
         product_id,
@@ -86,12 +85,9 @@ function Provider({ children }) {
 
   // 6. Get Cart Item for user
   const getCartItems = async () => {
-    const response = await axios.post(
-      'http://localhost:5000/api/products/getcart',
-      {
-        user_id: currentUser[0].id,
-      }
-    );
+    const response = await axios.post(base_url + '/api/products/getcart', {
+      user_id: currentUser[0].id,
+    });
 
     setCartItems(response.data.cart);
     return response.data.cart;
@@ -99,15 +95,12 @@ function Provider({ children }) {
 
   // 7. Checkout
   const getCheckout = async (product_id, count, total) => {
-    const response = await axios.post(
-      'http://localhost:5000/api/products/checkout',
-      {
-        user_id: currentUser[0].id,
-        product_id: product_id,
-        count: count,
-        total: total,
-      }
-    );
+    const response = await axios.post(base_url + '/api/products/checkout', {
+      user_id: currentUser[0].id,
+      product_id: product_id,
+      count: count,
+      total: total,
+    });
 
     return response.data;
   };
@@ -115,7 +108,7 @@ function Provider({ children }) {
   // 8. Business Transaction
   const getTransactionList = async (product_id, count, total) => {
     const response = await axios.get(
-      'http://localhost:5000/api/products/transactionList'
+      base_url + '/api/products/transactionList'
     );
 
     setTransactionList(response.data.transaction);
